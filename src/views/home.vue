@@ -1,78 +1,87 @@
 <template>
-<div class="d-flex container">
-
-    <div class="wrapper" v-for="item in items" v-bind:key="item">
-    <div class="clash-card barbarian">
-      <div class="clash-card__image clash-card__image--barbarian">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png" alt="barbarian" />
-      </div>
-      <div class="clash-card__level clash-card__level--barbarian">Level {{ item.id}}</div>
-      <div class="clash-card__unit-name">{{ item.name }}</div>
-      <div class="clash-card__unit-description">
-        The Barbarian is a kilt-clad Scottish warrior with an angry, battle-ready expression, hungry for destruction. He has Killer yellow horseshoe mustache.
-      </div>
-
-      <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
-        <div class="one-third">
-          <div class="stat">20<sup>S</sup></div>
-          <div class="stat-value">Training</div>
+  <div class="row container" v-if="posts && posts.length">
+    <div class="wrapper col-md-3" v-for="currency  in posts" v-bind:key="currency ">
+      <div class="clash-card barbarian">
+        <div class="clash-card__image clash-card__image--barbarian">
+          <img
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/barbarian.png"
+            alt="barbarian"
+          />
         </div>
+        <div class="clash-card__level clash-card__level--barbarian">{{ currency.description }}:</div>
+        <div class="clash-card__unit-name"></div>
+        <div class="clash-card__unit-description"></div>
 
-        <div class="one-third">
-          <div class="stat">16</div>
-          <div class="stat-value">Speed</div>
+        <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix">
+          <div class="one-third">
+            <div class="stat">
+              20
+              <sup>S</sup>
+            </div>
+            <div class="stat-value">Training</div>
+          </div>
+
+          <div class="one-third">
+            <div class="stat">16</div>
+            <div class="stat-value">Speed</div>
+          </div>
+
+          <div class="one-third no-border">
+            <div class="stat">150</div>
+            <div class="stat-value">Cost</div>
+          </div>
         </div>
-
-        <div class="one-third no-border">
-          <div class="stat">150</div>
-          <div class="stat-value">Cost</div>
-        </div>
-
       </div>
-
-    </div> <!-- end clash-card barbarian-->
-  </div> <!-- end wrapper -->
-  
-  
-</div>
-    <!-- main -->
-    
+      <!-- end clash-card barbarian-->
+    </div>
+    <!-- end wrapper -->
+  </div>
+  <!-- main -->
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
-  data(){
-    return{
-      items:[
-        {
-          id : 1,
-          name: 'hongson',
-        },
-        {
-          id : 2,
-          name: 'hongson2',
-        }
-      ]
-    }
+  data() {
+    return {
+      posts: null,
+      error: []
+    };
+  },
+
+  created() {
+    axios
+      .get("https://api.coindesk.com/v1/bpi/currentprice.json")
+      .then(response => (this.info = response.data.bpi + console.log(response.data.bpi.EUR)))
+      .catch(error => console.log(error));
   }
-}
+};
 </script>
 
 <style>
-@import'~bootstrap/dist/css/bootstrap.css';
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,900);
-*, *:before, *:after {
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url(https://fonts.googleapis.com/css?family=Lato:400, 700, 900);
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
 body {
-  background: -webkit-linear-gradient(top, #8c7a7a 0%, #af877c 65%, #af877c 100%) fixed;
-  background: linear-gradient(to bottom, #8c7a7a 0%, #af877c 65%, #af877c 100%) fixed;
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/coc-background.jpg") no-repeat center center fixed;
+  background: -webkit-linear-gradient(
+      top,
+      #8c7a7a 0%,
+      #af877c 65%,
+      #af877c 100%
+    )
+    fixed;
+  background: linear-gradient(to bottom, #8c7a7a 0%, #af877c 65%, #af877c 100%)
+    fixed;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/coc-background.jpg")
+    no-repeat center center fixed;
   background-size: cover;
   font: 14px/20px "Lato", Arial, sans-serif;
-  color: #9E9E9E;
+  color: #9e9e9e;
   margin-top: 30px;
 }
 
@@ -169,23 +178,23 @@ body {
 }
 
 .clash-card__level--barbarian {
-  color: #EC9B3B;
+  color: #ec9b3b;
 }
 
 .clash-card__level--archer {
-  color: #EE5487;
+  color: #ee5487;
 }
 
 .clash-card__level--giant {
-  color: #F6901A;
+  color: #f6901a;
 }
 
 .clash-card__level--goblin {
-  color: #82BB30;
+  color: #82bb30;
 }
 
 .clash-card__level--wizard {
-  color: #4FACFF;
+  color: #4facff;
 }
 
 .clash-card__unit-name {
@@ -201,35 +210,35 @@ body {
 }
 
 .clash-card__unit-stats--barbarian {
-  background: #EC9B3B;
+  background: #ec9b3b;
 }
 .clash-card__unit-stats--barbarian .one-third {
-  border-right: 1px solid #BD7C2F;
+  border-right: 1px solid #bd7c2f;
 }
 
 .clash-card__unit-stats--archer {
-  background: #EE5487;
+  background: #ee5487;
 }
 .clash-card__unit-stats--archer .one-third {
-  border-right: 1px solid #D04976;
+  border-right: 1px solid #d04976;
 }
 
 .clash-card__unit-stats--giant {
-  background: #F6901A;
+  background: #f6901a;
 }
 .clash-card__unit-stats--giant .one-third {
   border-right: 1px solid #de7b09;
 }
 
 .clash-card__unit-stats--goblin {
-  background: #82BB30;
+  background: #82bb30;
 }
 .clash-card__unit-stats--goblin .one-third {
   border-right: 1px solid #71a32a;
 }
 
 .clash-card__unit-stats--wizard {
-  background: #4FACFF;
+  background: #4facff;
 }
 .clash-card__unit-stats--wizard .one-third {
   border-right: 1px solid #309eff;
@@ -284,5 +293,4 @@ body {
   right: 100px;
   z-index: 999;
 }
-
 </style>
